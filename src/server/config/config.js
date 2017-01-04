@@ -3,7 +3,7 @@ var config = {};
 config.mongo = {
     host: 'localhost',
     port: 27017,
-    dbname: 'darts'
+    dbname: 'piweather'
 };
 
 config.jwt = {

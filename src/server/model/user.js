@@ -64,6 +64,8 @@ if (process.env.NODE_ENV === 'dev') {
                     console.log('New user successfully inserted into the db.');
                 }
             });
+        } else {
+            console.log('User already exist: nagyf@nagyf.hu');
         }
     });
 }
