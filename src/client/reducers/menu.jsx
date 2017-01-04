@@ -1,7 +1,7 @@
 const initialState = [
     {
         url: '/',
-        name: 'page.games.title',
+        name: 'page.dashboard.title',
         icon: 'dashboard'
     },
     {

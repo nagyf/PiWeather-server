@@ -19,6 +19,9 @@ const translations = {
             title: 'Navigation'
         },
         page: {
+            dashboard: {
+                title: 'Dashboard'
+            },
             profile: {
                 title: 'Profile'
             },
@@ -93,6 +96,9 @@ const translations = {
             title: 'Navigáció'
         },
         page: {
+            dashboard: {
+                title: 'Kezdőoldal'
+            },
             profile: {
                 title: 'Profil'
             },
