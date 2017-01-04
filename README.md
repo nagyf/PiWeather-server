@@ -1,9 +1,9 @@
-# darts-react
+# PiWeather-server
 
 ## Build
 
 ```
-cd darts-react
+cd PiWeather-server
 npm install
 npm start
 ```
