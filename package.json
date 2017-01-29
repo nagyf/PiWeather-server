@@ -1,5 +1,5 @@
 {
-    "name": "framework",
+    "name": "piweather-server",
     "version": "0.1.0",
     "description": "",
     "main": "src/server/index.js",
