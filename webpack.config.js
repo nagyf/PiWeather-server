@@ -18,7 +18,7 @@ const settings = module.exports = {
         preLoaders: [
             {
                 test: /\.jsx$/,
-                exclude: /node_modules/,
+                exclude: /node_modules|test/,
                 loader: 'eslint-loader'
             }
         ],

@@ -1,7 +1,7 @@
 import {SET_TITLE} from '../actions/frame';
 
 const initialState = {
-    title: 'Darts'
+    title: 'PiWeather'
 };
 
 export default (state = initialState, action) => {

@@ -21,7 +21,7 @@ export function login(email, password) {
 
         return axios.post(Api.getUrl('auth/login'), data)
             .then(res => dispatch(loginSuccess(res.data.token, res.data.id)))
-            .catch(error => dispatch(loginError(error.status, error)));
+            .catch(error => dispatch(loginError(error.response.status, error.response.data)));
     }
 }
 
