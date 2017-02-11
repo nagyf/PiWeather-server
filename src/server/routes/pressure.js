@@ -3,6 +3,7 @@ const {Pressure, PressureAggr} = require('../model/pressure');
 const logger = require('../logger');
 const router = express.Router();
 const _ = require('lodash');
+const socket = require('../socket');
 
 router.get('/', function (req, res, next) {
     const query = Pressure.find({});
@@ -68,6 +69,8 @@ router.post('/', function (req, res, next) {
                         if(err) {
                             res.status(500).json(err);
                         } else {
+                            socket.io().sockets.emit('pressure', pressure);
+                            socket.io().sockets.emit('pressureAggr', pressureAggr);
                             res.json(pressure);
                         }
                     });

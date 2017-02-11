@@ -5,6 +5,9 @@ export const GET_AGGREGATED_TEMP = 'GET_AGGREGATED_TEMP';
 export const GET_AGGREGATED_TEMP_SUCCESS = 'GET_AGGREGATED_TEMP_SUCCESS';
 export const GET_AGGREGATED_TEMP_ERROR = 'GET_AGGREGATED_TEMP_ERROR';
 
+export const ADD_TEMPERATURE = 'ADD_TEMPERATURE';
+export const ADD_AGGREGATED_TEMPERATURE = 'ADD_AGGREGATED_TEMPERATURE';
+
 export function getAggregatedTemp(){
     return dispatch => {
         dispatch({type: GET_AGGREGATED_TEMP});
@@ -30,6 +33,24 @@ export function getAggregatedTempError(status, error){
         payload: {
             status,
             error
+        }
+    };
+}
+
+export function addTemperature(temperature) {
+    return {
+        type: ADD_TEMPERATURE,
+        payload: {
+            temperature
+        }
+    };
+}
+
+export function addAggregatedTemperature(aggregatedTemperature) {
+    return {
+        type: ADD_AGGREGATED_TEMPERATURE,
+        payload: {
+            aggregatedTemperature
         }
     };
 }

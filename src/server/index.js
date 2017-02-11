@@ -10,6 +10,7 @@ var winston = require('./logger');
 var db = require('./db');
 require('./model/user');
 var auth = require('./auth')();
+var socket = require('./socket');
 
 app.use(favicon(__dirname + '/../../public/favicon.ico'));
 app.use(morgan('dev'));
@@ -57,10 +58,12 @@ app.use(function (err, req, res, next) {
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port, '0.0.0.0', function (err) {
+var server = app.listen(port, '0.0.0.0', function (err) {
     if (err) {
         return winston.error(err);
     }
 
     winston.log('Listening at http://localhost:' + port + '/');
 });
+
+socket.init(server);

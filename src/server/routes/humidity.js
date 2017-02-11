@@ -3,6 +3,7 @@ const {Humidity, HumidityAggr} = require('../model/humidity');
 const logger = require('../logger');
 const router = express.Router();
 const _ = require('lodash');
+const socket = require('../socket');
 
 router.get('/', function (req, res, next) {
     const query = Humidity.find({});
@@ -68,6 +69,8 @@ router.post('/', function (req, res, next) {
                         if(err) {
                             res.status(500).json(err);
                         } else {
+                            socket.io().sockets.emit('humidity', humidity);
+                            socket.io().sockets.emit('humidityAggr', humidityAggr);
                             res.json(humidity);
                         }
                     });

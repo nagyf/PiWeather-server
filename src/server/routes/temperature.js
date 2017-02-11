@@ -3,6 +3,7 @@ const {Temperature, TemperatureAggr} = require('../model/temperature');
 const logger = require('../logger');
 const router = express.Router();
 const _ = require('lodash');
+const socket = require('../socket');
 
 router.get('/', function (req, res, next) {
     const query = Temperature.find({});
@@ -68,6 +69,8 @@ router.post('/', function (req, res, next) {
                         if(err) {
                             res.status(500).json(err);
                         } else {
+                            socket.io().sockets.emit('temperature', temp);
+                            socket.io().sockets.emit('temperatureAggr', tempAggr);
                             res.json(temp);
                         }
                     });
