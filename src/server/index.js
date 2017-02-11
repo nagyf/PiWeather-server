@@ -30,6 +30,7 @@ if (app.get('env') === 'dev') {
 }
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/token', auth.authenticate(), require('./routes/token'));
 app.use('/api/users', auth.authenticate(), require('./routes/users'));
 app.use('/api/temperature', auth.authenticate(), require('./routes/temperature'));
 app.use('/api/pressure', auth.authenticate(), require('./routes/pressure'));
