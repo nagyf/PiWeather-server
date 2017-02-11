@@ -8,6 +8,9 @@ import frame from './frame';
 import menu from './menu';
 import i18n from './translations';
 import snack from './snack';
+import temperature from './temperature';
+import humidity from './humidity';
+import pressure from './pressure';
 
 export default combineReducers({
     routing: routerReducer,
@@ -18,5 +21,8 @@ export default combineReducers({
     auth,
     frame,
     menu,
-    snack
+    snack,
+    temperature,
+    humidity,
+    pressure
 });
