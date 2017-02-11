@@ -1,11 +1,22 @@
-var express = require('express');
-var Pressure = require('../model/pressure');
-var logger = require('../logger');
-var router = express.Router();
-var _ = require('lodash');
+const express = require('express');
+const {Pressure, PressureAggr} = require('../model/pressure');
+const logger = require('../logger');
+const router = express.Router();
+const _ = require('lodash');
 
 router.get('/', function (req, res, next) {
-    var query = Pressure.find({});
+    const query = Pressure.find({});
+    query.exec().then(
+        function (data) {
+            res.json(data);
+        }, function (err) {
+            logger.error(err);
+            res.status(500).send({error: 'An error occured on the server'});
+        });
+});
+
+router.get('/aggregated', function (req, res, next) {
+    const query = PressureAggr.findOne({});
     query.exec().then(
         function (data) {
             res.json(data);
@@ -16,9 +27,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    var pressure = new Pressure(req.body);
+    const pressure = new Pressure(req.body);
     pressure.date = new Date();
-    var error = pressure.validateSync();
+    const error = pressure.validateSync();
     if (error) {
         res.status(400).json({
             name: error.name,
@@ -29,7 +40,38 @@ router.post('/', function (req, res, next) {
             if (err) {
                 res.status(500).json(err);
             } else {
-                res.json(pressure);
+                let pressureAggrQuery = PressureAggr.findOne({});
+                pressureAggrQuery.exec().then(function (pressureAggr) {
+                    if(!pressureAggr) {
+                        pressureAggr = new PressureAggr();
+                        pressureAggr.sum = 0;
+                        pressureAggr.count = 0;
+                        pressureAggr.min = pressure.value;
+                        pressureAggr.max = pressure.value;
+                    }
+
+                    pressureAggr.count += 1;
+                    pressureAggr.sum += pressure.value;
+                    pressureAggr.current = pressure.value;
+                    pressureAggr.date = pressure.date;
+                    pressureAggr.unit = pressure.unit;
+
+                    if(!pressureAggr.min || pressureAggr.min > pressure.value) {
+                        pressureAggr.min = pressure.value;
+                    }
+
+                    if(!pressureAggr.max || pressureAggr.max < pressure.value) {
+                        pressureAggr.max = pressure.value;
+                    }
+
+                    pressureAggr.save(function (err) {
+                        if(err) {
+                            res.status(500).json(err);
+                        } else {
+                            res.json(pressure);
+                        }
+                    });
+                });
             }
         });
     }

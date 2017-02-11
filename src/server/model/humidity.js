@@ -1,12 +1,12 @@
 /**
  * This module contains the Humidity model setup
  */
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 /**
  * The schema of the humidity model
  */
-var HumiditySchema = new mongoose.Schema({
+const HumiditySchema = new mongoose.Schema({
     value: {
         type: Number,
         required: true
@@ -21,8 +21,43 @@ var HumiditySchema = new mongoose.Schema({
     }
 });
 
+const HumidityAggrSchema = new mongoose.Schema({
+    current: {
+        type: Number,
+        required: true
+    },
+    unit: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    min: {
+        type: Number,
+        required: true
+    },
+    max: {
+        type: Number,
+        required: true
+    },
+    sum: {
+        type: Number,
+        required: true
+    },
+    count: {
+        type: Number,
+        required: true
+    }
+});
+
 /**
  * This collection stores the relative humidity values.
  */
-var Humidity = mongoose.model('Humidity', HumiditySchema);
-module.exports = Humidity;
+const Humidity = mongoose.model('Humidity', HumiditySchema);
+const HumidityAggr = mongoose.model('HumidityAggr', HumidityAggrSchema);
+module.exports = {
+    Humidity,
+    HumidityAggr
+};

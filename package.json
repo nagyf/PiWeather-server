@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "node src/server/index.js",
-    "debug": "node %NODE_DEBUG_OPTION% src/server/index.js"
+    "debug": "node $NODE_DEBUG_OPTION src/server/index.js"
   },
   "author": "Ferenc Nagy",
   "license": "MIT",

@@ -1,12 +1,12 @@
 /**
  * This module contains the Temperature model setup
  */
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 /**
  * The temperature model schema
  */
-var TemperatureSchema = new mongoose.Schema({
+const TemperatureSchema = new mongoose.Schema({
     value: {
         type: Number,
         required: true
@@ -21,8 +21,43 @@ var TemperatureSchema = new mongoose.Schema({
     }
 });
 
+const TemperatureAggrSchema = new mongoose.Schema({
+    current: {
+        type: Number,
+        required: true
+    },
+    unit: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    min: {
+        type: Number,
+        required: true
+    },
+    max: {
+        type: Number,
+        required: true
+    },
+    sum: {
+        type: Number,
+        required: true
+    },
+    count: {
+        type: Number,
+        required: true
+    }
+});
+
 /**
  * This collection stores the temperature values.
  */
-var Temperature = mongoose.model('Temperature', TemperatureSchema);
-module.exports = Temperature;
+const Temperature = mongoose.model('Temperature', TemperatureSchema);
+const TemperatureAggr = mongoose.model('TemperatureAggr', TemperatureAggrSchema);
+module.exports = {
+    Temperature,
+    TemperatureAggr
+};

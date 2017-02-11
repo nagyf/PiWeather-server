@@ -52,6 +52,23 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "Humidity aggregated",
+					"request": {
+						"url": "localhost:3000/api/humidity/aggregated",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{JWT_TOKEN}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		},
@@ -81,6 +98,31 @@
 					"request": {
 						"url": "localhost:3000/api/pressure/",
 						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{JWT_TOKEN}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value\": 36,\n\t\"unit\": \"Psi\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Pressure aggregated",
+					"request": {
+						"url": "localhost:3000/api/pressure/aggregated",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
@@ -145,6 +187,23 @@
 							"mode": "raw",
 							"raw": "{\n\t\"value\": 23,\n\t\"unit\": \"°C\",\n\t\"date\": \"2017.01.07\"\n}"
 						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Aggregated",
+					"request": {
+						"url": "localhost:3000/api/temperature/aggregated",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{JWT_TOKEN}}",
+								"description": ""
+							}
+						],
+						"body": {},
 						"description": ""
 					},
 					"response": []
@@ -243,6 +302,18 @@
 		},
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"JWT_TOKEN\", jsonData.token);"
+						]
+					}
+				}
+			],
 			"request": {
 				"url": "localhost:3000/api/auth/login",
 				"method": "POST",
