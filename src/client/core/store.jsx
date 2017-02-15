@@ -7,6 +7,7 @@ import { syncAxiosInterceptorsWithStore } from './auth';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import reducers from '../reducers';
+import {syncSocketEventsWithStore} from './sockets';
 
 // Apply the middleware to the store
 const routingMiddleware = routerMiddleware(browserHistory);
@@ -19,5 +20,6 @@ const store = createStore(
 
 syncTranslationWithStore(store);
 syncAxiosInterceptorsWithStore(store);
+syncSocketEventsWithStore(store);
 
 export default store;

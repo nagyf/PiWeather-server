@@ -36,7 +36,7 @@ export function fetchUsers() {
 
         return axios.get(Api.getUrl('users'))
             .then(res => dispatch(fetchUsersSuccess(res.data)))
-            .catch(error => dispatch(fetchUsersError(error.status, error)));
+            .catch(error => dispatch(fetchUsersError(error.response.status, error.response.data)));
     };
 }
 
@@ -76,7 +76,7 @@ export function fetchUser(id) {
 
         return axios.get(Api.getUrl(`users/${id}`))
             .then(res => dispatch(fetchUserSuccess(res.data)))
-            .catch(error => dispatch(fetchUserError(error.status, error)));
+            .catch(error => dispatch(fetchUserError(error.response.status, error.response.data)));
     };
 }
 
@@ -105,7 +105,7 @@ export function createUser(user) {
 
         return axios.post(Api.getUrl('users/'), user)
             .then(result => dispatch(createUserSuccess(result.data)))
-            .catch(error => dispatch(createUserError(error.status, error)));
+            .catch(error => dispatch(createUserError(error.response.status, error.response.data)));
     };
 }
 
@@ -137,7 +137,7 @@ export function editUser(user) {
 
         return axios.put(Api.getUrl(`users/${user._id}`), user)
             .then(() => dispatch(editUserSuccess()))
-            .catch(error => dispatch(editUserError(error.status, error)));
+            .catch(error => dispatch(editUserError(error.response.status, error.response.data)));
     };
 }
 
@@ -163,7 +163,7 @@ export function deleteUser(id) {
 
         return axios.delete(Api.getUrl(`users/${id}`))
             .then(() => dispatch(deleteUserSuccess(id)))
-            .catch(error => dispatch(deleteUserError(error.status, error)));
+            .catch(error => dispatch(deleteUserError(error.response.status, error.response.data)));
     };
 }
 
@@ -192,7 +192,7 @@ export function changePassword(id, password) {
 
         return axios.post(Api.getUrl('users/changePassword'), {id, password})
             .then(res => dispatch(changePasswordSuccess(res.data)))
-            .catch(error => dispatch(changePasswordError(error.status, error)));
+            .catch(error => dispatch(changePasswordError(error.response.status, error.response.data)));
     };
 }
 

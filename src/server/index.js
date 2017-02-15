@@ -10,6 +10,7 @@ var winston = require('./logger');
 var db = require('./db');
 require('./model/user');
 var auth = require('./auth')();
+var socket = require('./socket');
 
 app.use(favicon(__dirname + '/../../public/favicon.ico'));
 app.use(morgan('dev'));
@@ -30,7 +31,11 @@ if (app.get('env') === 'dev') {
 }
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/token', auth.authenticate(), require('./routes/token'));
 app.use('/api/users', auth.authenticate(), require('./routes/users'));
+app.use('/api/temperature', auth.authenticate(), require('./routes/temperature'));
+app.use('/api/pressure', auth.authenticate(), require('./routes/pressure'));
+app.use('/api/humidity', auth.authenticate(), require('./routes/humidity'));
 
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '/../../public/index.html'));
@@ -53,10 +58,12 @@ app.use(function (err, req, res, next) {
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port, function (err) {
+var server = app.listen(port, '0.0.0.0', function (err) {
     if (err) {
         return winston.error(err);
     }
 
     winston.log('Listening at http://localhost:' + port + '/');
 });
+
+socket.init(server);

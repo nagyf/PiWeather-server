@@ -5,7 +5,7 @@
 var winston = require('winston');
 
 winston.add(winston.transports.File, {
-    filename: 'darts.log'
+    filename: 'piweather.log'
 });
 
 module.exports = winston;

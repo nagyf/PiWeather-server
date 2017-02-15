@@ -1,13 +1,14 @@
 import React, {PropTypes} from 'react';
 import {Card, CardText, CardHeader} from 'material-ui';
 import {Row} from 'react-flexbox-grid';
+import LineChart from '../line-chart';
 
 class WeatherCard extends React.Component {
 
     render() {
         return (
             <Card>
-                <CardHeader title={this.props.title} />
+                <CardHeader title={this.props.title}/>
                 <CardText>
                     <Row middle="xs" center="xs">
                         <p className="primary">{this.props.value.value} {this.props.unit}</p>
@@ -16,6 +17,9 @@ class WeatherCard extends React.Component {
                             <p className="secondary">Min: {this.props.value.min} {this.props.unit}</p>
                             <p className="secondary">Max: {this.props.value.max} {this.props.unit}</p>
                         </div>
+                    </Row>
+                    <Row>
+                        <LineChart series={this.props.series}/>
                     </Row>
                 </CardText>
             </Card>
@@ -26,7 +30,8 @@ class WeatherCard extends React.Component {
 WeatherCard.propTypes = {
     title: PropTypes.string.isRequired,
     value: PropTypes.object.isRequired,
-    unit: PropTypes.string.isRequired
+    unit: PropTypes.string.isRequired,
+    series: PropTypes.array.isRequired
 };
 
 export default WeatherCard;
