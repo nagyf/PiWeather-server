@@ -1,4 +1,4 @@
-import {GET_AGGREGATED_TEMP_SUCCESS, ADD_TEMPERATURE, ADD_AGGREGATED_TEMPERATURE} from '../actions/temperature';
+import {GET_AGGREGATED_TEMP_SUCCESS, ADD_TEMPERATURE, ADD_AGGREGATED_TEMPERATURE, GET_TEMPERATURE_SERIES_SUCCESS} from '../actions/temperature';
 
 const initialState = {
     series: [],
@@ -20,6 +20,11 @@ export default (state = initialState, action) => {
         case ADD_AGGREGATED_TEMPERATURE: {
             return Object.assign({}, state, {
                 aggregated: action.payload.aggregatedTemperature
+            });
+        }
+        case GET_TEMPERATURE_SERIES_SUCCESS: {
+            return Object.assign({}, state, {
+                series: action.payload.series
             });
         }
         default: {

@@ -1,4 +1,4 @@
-import {GET_AGGREGATED_PRESSURE_SUCCESS, ADD_PRESSURE, ADD_AGGREGATED_PRESSURE} from '../actions/pressure';
+import {GET_AGGREGATED_PRESSURE_SUCCESS, ADD_PRESSURE, ADD_AGGREGATED_PRESSURE, GET_PRESSURE_SERIES_SUCCESS} from '../actions/pressure';
 
 const initialState = {
     series: [],
@@ -20,6 +20,11 @@ export default (state = initialState, action) => {
         case ADD_AGGREGATED_PRESSURE: {
             return Object.assign({}, state, {
                 aggregated: action.payload.aggregatedPressure
+            });
+        }
+        case GET_PRESSURE_SERIES_SUCCESS: {
+            return Object.assign({}, state, {
+                series: action.payload.series
             });
         }
         default: {

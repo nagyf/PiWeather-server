@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {setTitle} from '../../actions/frame';
 import {I18n} from 'react-i18nify';
 import {Grid, Row, Col} from 'react-flexbox-grid';
-import {getAggregatedTemp} from '../../actions/temperature';
-import {getAggregatedHumidity} from '../../actions/humidity';
-import {getAggregatedPressure} from '../../actions/pressure';
+import {getAggregatedTemp, getTemperatureSeries} from '../../actions/temperature';
+import {getAggregatedHumidity, getHumiditySeries} from '../../actions/humidity';
+import {getAggregatedPressure, getPressureSeries} from '../../actions/pressure';
 import _ from 'lodash';
 
 import './dashboard.less';
@@ -19,9 +19,18 @@ class Dashboard extends React.Component {
      * Fetch the games
      */
     componentWillMount() {
+        // Load temperature data
         this.props.dispatch(getAggregatedTemp());
+        this.props.dispatch(getTemperatureSeries());
+
+        // Load humidity data
         this.props.dispatch(getAggregatedHumidity());
+        this.props.dispatch(getHumiditySeries());
+
+        // Load pressure data
         this.props.dispatch(getAggregatedPressure());
+        this.props.dispatch(getPressureSeries());
+
         this.props.dispatch(setTitle(I18n.t('page.dashboard.title')));
     }
 
@@ -53,13 +62,16 @@ class Dashboard extends React.Component {
                 <Row>
                     <Col xs={12} sm={4}>
                         <WeatherCard title="Temperature" value={temperature}
-                                     unit={this.props.temperatureAggregated.unit || ''}/>
+                                     unit={this.props.temperatureAggregated.unit || ''}
+                                     series={this.props.temperatureSeries}/>
                     </Col>
                     <Col xs={12} sm={4}>
-                        <WeatherCard title="Humidity" value={humidity} unit={this.props.humidityAggregated.unit || ''}/>
+                        <WeatherCard title="Humidity" value={humidity} unit={this.props.humidityAggregated.unit || ''}
+                                     series={this.props.humiditySeries}/>
                     </Col>
                     <Col xs={12} sm={4}>
-                        <WeatherCard title="Pressure" value={pressure} unit={this.props.pressureAggregated.unit || ''}/>
+                        <WeatherCard title="Pressure" value={pressure} unit={this.props.pressureAggregated.unit || ''}
+                                     series={this.props.pressureSeries}/>
                     </Col>
                 </Row>
             </Grid>
@@ -70,13 +82,21 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
     temperatureAggregated: PropTypes.object.isRequired,
     humidityAggregated: PropTypes.object.isRequired,
-    pressureAggregated: PropTypes.object.isRequired
+    pressureAggregated: PropTypes.object.isRequired,
+    temperatureSeries: PropTypes.array.isRequired,
+    humiditySeries: PropTypes.array.isRequired,
+    pressureSeries: PropTypes.array.isRequired
 };
 
 export default connect(state => {
     return {
         temperatureAggregated: state.temperature.aggregated,
+        temperatureSeries: state.temperature.series,
+
         humidityAggregated: state.humidity.aggregated,
-        pressureAggregated: state.pressure.aggregated
+        humiditySeries: state.humidity.series,
+
+        pressureAggregated: state.pressure.aggregated,
+        pressureSeries: state.pressure.series
     };
 })(Dashboard);
