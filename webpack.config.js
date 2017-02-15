@@ -7,7 +7,7 @@ const settings = module.exports = {
         './src/client/index.jsx'
     ],
     output: {
-        path: '/dist',
+        path: './dist',
         filename: 'app.bundle.js'
     },
     resolve: {
