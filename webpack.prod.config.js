@@ -1,17 +1,15 @@
 const webpack = require('webpack');
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client',
         './src/client/index.jsx'
     ],
     output: {
-        path: '/dist',
+        path: './dist',
         filename: 'app.bundle.js'
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
-    devtool: 'source-map',
     module: {
         preLoaders: [
             {
@@ -24,7 +22,7 @@ module.exports = {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                loaders: ['react-hot-loader/webpack', 'babel']
+                loaders: ['babel']
             },
             {
                 test: /\.less$/,
@@ -50,11 +48,10 @@ module.exports = {
         configFile: './.eslintrc.json'
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.OldWatchingPlugin(),
+        new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-            IS_PRODUCTION: process.env.NODE_ENV === 'prod',
+            IS_PRODUCTION: process.env.NODE_ENV === 'production',
             IS_DEVELOPMENT: process.env.NODE_ENV === 'dev'
         })
     ]
