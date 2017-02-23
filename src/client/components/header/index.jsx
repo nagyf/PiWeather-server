@@ -5,12 +5,14 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import { FlatButton, FontIcon } from 'material-ui';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import { goBack } from 'react-router-redux';
 import Menu from '../menu';
 import LoadingBar from 'react-redux-loading-bar';
 import { Translate } from 'react-i18nify';
+import { getVersion } from '../../actions/version';
 import './loading-bar.less';
 
 /**
@@ -24,6 +26,7 @@ class Header extends React.Component {
             open: false
         };
 
+        this.props.dispatch(getVersion());
         this.closeNavigation = this.closeNavigation.bind(this)
     }
 
@@ -65,7 +68,11 @@ class Header extends React.Component {
 
                     <Menu onClick={() => this.closeNavigation()}/>
                 </Drawer>
-                <AppBar title={this.props.title} iconElementLeft={this.renderLeftElement()}/>
+                <AppBar title={this.props.title}
+                        iconElementLeft={this.renderLeftElement()}
+                        iconElementRight={<FlatButton label={'v' + this.props.appVersion}
+                                                      icon={<FontIcon className="fa fa-github"/>}
+                                                      href="https://github.com/nagyf/PiWeather-server"/>}/>
             </div>
         );
     }
@@ -74,12 +81,14 @@ class Header extends React.Component {
 Header.propTypes = {
     title: PropTypes.string.isRequired,
     currentPath: PropTypes.string.isRequired,
-    menu: PropTypes.array.isRequired
+    menu: PropTypes.array.isRequired,
+    appVersion: PropTypes.string.isRequired
 };
 
 export default connect(state => {
     return {
         title: state.frame.title,
+        appVersion: state.version,
         menu: state.menu
     };
 })(Header);

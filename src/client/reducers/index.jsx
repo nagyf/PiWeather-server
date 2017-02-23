@@ -11,6 +11,7 @@ import snack from './snack';
 import temperature from './temperature';
 import humidity from './humidity';
 import pressure from './pressure';
+import version from './version';
 
 export default combineReducers({
     routing: routerReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
     snack,
     temperature,
     humidity,
-    pressure
+    pressure,
+    version
 });

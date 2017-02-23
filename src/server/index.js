@@ -12,6 +12,8 @@ require('./model/user');
 var auth = require('./auth')();
 var socket = require('./socket');
 
+var version = require('../../package.json').version;
+
 app.use(favicon(__dirname + '/../../public/favicon.ico'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -29,6 +31,12 @@ if (app.get('env') === 'dev') {
     }));
     app.use(require('webpack-hot-middleware')(compiler));
 }
+
+app.get('/version', function(req, res){
+    res.json({
+        version
+    });
+});
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/token', auth.authenticate(), require('./routes/token'));
