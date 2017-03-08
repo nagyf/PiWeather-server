@@ -19,7 +19,7 @@ class User extends React.Component {
 
     render() {
         return (
-            <UserForm user={this.state.user}/>
+            <UserForm user={this.state.user} currentUserId={''}/>
         );
     }
 }

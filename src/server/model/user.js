@@ -1,3 +1,5 @@
+var roles = require('../../common/roles');
+var _ = require('lodash');
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
@@ -24,6 +26,11 @@ var UserSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: _.values(roles)
     }
 });
 
@@ -54,7 +61,8 @@ if (process.env.NODE_ENV === 'dev') {
                 password: hash,
                 name: 'Nagy Ferenc',
                 nick: 'Feri',
-                active: true
+                active: true,
+                role: roles.ADMIN
             });
 
             newUser.save(function (err) {

@@ -7,8 +7,10 @@ import Formsy from 'formsy-react';
 import { FormsyText, FormsyToggle } from 'formsy-material-ui/lib';
 import { Row, Col } from 'react-flexbox-grid/lib';
 import {I18n} from 'react-i18nify';
+
 import { createUser, editUser } from '../../actions/user';
 import ChangePasswordDialog from '../change-password-dialog';
+import roles from '../../../common/roles';
 import './user-form.less';
 
 const userDefaults = {
@@ -27,7 +29,8 @@ class UserForm extends React.Component {
         this.state = {
             canSubmit: false,
             showPasswordDialog: false,
-            user: Object.assign({}, userDefaults, this.props.user)
+            user: Object.assign({}, userDefaults, this.props.user),
+            currentUserId : this.props.currentUserId || ''
         };
 
         this.handleToggle = this.handleToggle.bind(this);
@@ -39,21 +42,32 @@ class UserForm extends React.Component {
      */
     componentWillReceiveProps(nextProps) {
         this.setState({
-            user: Object.assign({}, userDefaults, nextProps.user)
+            user: Object.assign({}, userDefaults, nextProps.user),
+            currentUserId : nextProps.currentUserId || ''
         });
     }
 
     /**
      * Handle the toggle events from checkboxes and such components.
      */
-    handleToggle() {
-        const newValue = {
-            active: !this.state.user.active
-        };
+    handleToggle(field) {
+        if(field === 'active') {
+            const newValue = {
+                active: !this.state.user.active
+            };
 
-        this.setState({
-            user: Object.assign({}, this.state.user, newValue)
-        });
+            this.setState({
+                user: Object.assign({}, this.state.user, newValue)
+            });
+        } else if(field === 'role'){
+            const newValue = {
+                role: this.state.user.role === roles.ADMIN ? roles.USER : roles.ADMIN
+            };
+
+            this.setState({
+                user: Object.assign({}, this.state.user, newValue)
+            });
+        }
     }
 
     /**
@@ -132,8 +146,15 @@ class UserForm extends React.Component {
                         <Row>
                             <Col xs={1}>
                                 <FormsyToggle name='active' label={I18n.t('component.userForm.active')} value={this.state.user.active}
-                                              disabled={this.props.user._id === this.props.currentUserId}
-                                              onChange={this.handleToggle.bind(this)}/>
+                                              disabled={this.props.user._id === this.state.currentUserId}
+                                              onChange={this.handleToggle.bind(this, 'active')}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={1}>
+                                <FormsyToggle name='role' label={I18n.t('component.userForm.admin')} value={this.state.user.role === roles.ADMIN}
+                                              disabled={this.props.user._id === this.state.currentUserId}
+                                              onChange={this.handleToggle.bind(this, 'role')}/>
                             </Col>
                         </Row>
                         <Row end='xs' className="action-buttons-wrapper">
@@ -157,8 +178,4 @@ UserForm.propTypes = {
     currentUserId: PropTypes.string.isRequired
 };
 
-export default connect(state => {
-    return {
-        currentUserId: state.auth.id
-    };
-})(UserForm);
+export default connect()(UserForm);

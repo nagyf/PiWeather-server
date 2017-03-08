@@ -1,3 +1,4 @@
+var roles = require('../../common/roles');
 var express = require('express');
 var User = require('../model/user');
 var logger = require('../logger');
@@ -7,7 +8,7 @@ var _ = require('lodash');
 var bcrypt = require('bcryptjs');
 
 function pickUserFields(data) {
-    var allowedFields = ['_id', 'name', 'email', 'active', 'nick'];
+    var allowedFields = ['_id', 'name', 'email', 'active', 'nick', 'role'];
     if (_.isArray(data)) {
         return _.map(data, function (u) {
             return _.pick(u, allowedFields);
@@ -49,12 +50,20 @@ router.get('/:id', function (req, res, next) {
  * Create a new user
  */
 router.post('/', function (req, res, next) {
+    if(req.user.role !== roles.ADMIN){
+        res.status(401).send('You must be an admin to perform this operation');
+    }
+
     var user = new User(req.body);
 
     // FIXME generate a random password and send an activation link
     var salt = bcrypt.genSaltSync(10);
     // The password will be "a"
     user.password = bcrypt.hashSync("a", salt);
+
+    if (!user.role) {
+        user.role = roles.USER;
+    }
 
     var error = user.validateSync();
     if (error) {
@@ -93,6 +102,11 @@ router.post('/changepassword', function (req, res) {
  * Update a user
  */
 router.put('/:id', function (req, res, next) {
+    if(req.user.role !== roles.ADMIN){
+        res.status(401).send('You must be an admin to perform this operation');
+        return;
+    }
+
     var id = req.params.id;
     User.findOne({_id: id}).exec(
         function (err, user) {
@@ -119,6 +133,11 @@ router.put('/:id', function (req, res, next) {
  * Delete a user by id
  */
 router.delete('/:id', function (req, res, next) {
+    if(req.user.role !== roles.ADMIN){
+        res.status(401).send('You must be an admin to perform this operation');
+        return;
+    }
+
     var id = req.params.id;
     User.findOne({_id: id}).exec(
         function (err, user) {

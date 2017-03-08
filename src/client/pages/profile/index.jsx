@@ -1,11 +1,10 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { I18n } from 'react-i18nify';
 import { Paper, Avatar } from 'material-ui';
 import { setTitle } from '../../actions/frame';
-import { fetchUser } from '../../actions/user';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import {connect} from 'react-redux';
+import provideCurrentUser from '../../components/userProvider';
 import ProfileForm from '../../components/profile-form';
 
 /**
@@ -14,9 +13,6 @@ import ProfileForm from '../../components/profile-form';
 class Profile extends Component {
     componentWillMount() {
         this.props.dispatch(setTitle(I18n.t('page.profile.title')));
-        if (!this.props.user._id) {
-            this.props.dispatch(fetchUser(this.props.id));
-        }
     }
 
     render() {
@@ -38,12 +34,4 @@ class Profile extends Component {
     }
 }
 
-export default connect((state) => {
-    const id = state.auth.id;
-    const user = _.chain(state.users).filter(u => u._id === id).head().value() || {};
-
-    return {
-        id: id,
-        user: user
-    };
-})(Profile);
+export default connect()(provideCurrentUser(Profile));

@@ -42,7 +42,10 @@ export default (state = [], action) => {
             return action.payload.users;
         }
         case FETCH_USER_SUCCESS: {
+            const existing = _.filter(state, u => u._id !== action.payload.user._id);
+
             return [
+                ...existing,
                 Object.assign({}, action.payload.user)
             ];
         }

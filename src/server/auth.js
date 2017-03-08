@@ -15,7 +15,7 @@ module.exports = function () {
         User.findOne({_id: payload.id}).exec(
             function(err, user){
                 if (user) {
-                    return done(null, {id: user._id});
+                    return done(null, user);
                 } else {
                     return done(new Error('User not found'), null);
                 }

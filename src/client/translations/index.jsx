@@ -71,7 +71,8 @@ const translations = {
                 email: 'E-mail',
                 emailError: 'This is not a valid email address',
                 active: 'Active',
-                changePassword: 'Change Password'
+                changePassword: 'Change Password',
+                admin: 'Admin'
             },
             scoreDialog: {
                 title: 'Score'
@@ -148,7 +149,8 @@ const translations = {
                 email: 'E-mail',
                 emailError: 'Hibás e-mail cím',
                 active: 'Aktív',
-                changePassword: 'Jelszó megváltoztatása'
+                changePassword: 'Jelszó megváltoztatása',
+                admin: 'Adminisztrátor'
             },
             scoreDialog: {
                 title: 'Pontszám'

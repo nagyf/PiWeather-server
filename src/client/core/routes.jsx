@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import AuthenticatedApp from '../components/app';
 import AnonymousApp from '../components/anonymous-app';

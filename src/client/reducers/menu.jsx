@@ -1,3 +1,5 @@
+import role from '../../common/roles';
+
 const initialState = [
     {
         url: '/',
@@ -7,7 +9,8 @@ const initialState = [
     {
         url: '/users',
         name: 'page.users.title',
-        icon: 'people'
+        icon: 'people',
+        role: role.ADMIN
     },
     {
         url: '/me',

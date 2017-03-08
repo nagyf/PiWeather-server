@@ -8,9 +8,9 @@ export function getVersion(){
     return dispatch => {
         dispatch({type: GET_VERSION});
 
-        return axios.get('version')
+        return axios.get('/version')
             .then(res => dispatch(getVersionSuccess(res.data)))
-            .catch(error => dispatch(getVersionError(error.response.status, error.response.data)));
+            .catch(error => dispatch(getVersionError(error, error)));
     };
 }
 
