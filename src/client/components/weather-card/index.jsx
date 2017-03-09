@@ -19,7 +19,7 @@ class WeatherCard extends React.Component {
                         </div>
                     </Row>
                     <Row>
-                        <LineChart series={this.props.series}/>
+                        <LineChart series={this.props.series} min={this.props.value.min} max={this.props.value.max}/>
                     </Row>
                 </CardText>
             </Card>

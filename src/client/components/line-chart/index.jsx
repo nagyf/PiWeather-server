@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import * as d3 from 'd3';
 import './line-chart.less';
-import * as _ from 'lodash';
 
 class LineChart extends React.Component {
     componentDidMount() {
@@ -46,16 +45,14 @@ class LineChart extends React.Component {
             .attr('fill', 'none')
             .attr('pointer-events', 'all')
             .on('mouseout', () => { // on mouse out hide line, circles and text
-                that.mouseG.select('.mouse-line')
-                    .style('opacity', '0');
-                that.mouseG.selectAll('circle').style('opacity', 0);
-                that.mouseG.selectAll('text').style('opacity', 0);
+                that.mouseG.select('.mouse-line').transition().style('opacity', '0');
+                that.mouseG.selectAll('circle').transition().style('opacity', 0);
+                that.mouseG.selectAll('text').transition().style('opacity', 0);
             })
             .on('mouseover', () => { // on mouse in show line, circles and text
-                that.mouseG.select('.mouse-line')
-                    .style('opacity', '1');
-                that.mouseG.selectAll('circle').style('opacity', 1);
-                that.mouseG.selectAll('text').style('opacity', 1);
+                that.mouseG.select('.mouse-line').transition().style('opacity', '1');
+                that.mouseG.selectAll('circle').transition().style('opacity', 1);
+                that.mouseG.selectAll('text').transition().style('opacity', 1);
             })
             .on('mousemove', function () { // mouse moving over canvas
                 const mouse = d3.mouse(this);
@@ -108,10 +105,9 @@ class LineChart extends React.Component {
                 .range([0, this.getBounds().width])
                 .domain([0, this.props.series.length]);
 
-            const max = _.maxBy(this.props.series, i => i.value);
             this.scaleY = d3.scaleLinear()
                 .range([0, this.getBounds().height])
-                .domain([max ? max.value : 0, 0]);
+                .domain([this.props.max, 0]);
 
             this.chartG.selectAll('path').remove();
             this.chartG.append('path')
@@ -148,7 +144,9 @@ class LineChart extends React.Component {
 }
 
 LineChart.propTypes = {
-    series: PropTypes.array.isRequired
+    series: PropTypes.array.isRequired,
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired
 };
 
 export default LineChart;
